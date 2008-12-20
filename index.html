@@ -39,7 +39,11 @@
       <div id="repos">
         <h2>Projects</h2>
         <div class="template">
-          <li class="repo"><a href="#{url}">#{name}</a> (#{watchers})</li>
+          <li class="repo">
+            <a href="http://github.com/#{owner}" class="owner">#{owner}</a> / <a href="#{url}" class="repo">#{name}</a>
+            (#{watchers})
+            #{description}
+          </li>
         </div>
         <ul class="content">Loading...</ul>
       </div>

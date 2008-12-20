@@ -6,8 +6,15 @@ html {
   display: none;
 }
 
-/* Sectional Styles */
+/* Footer Styles */
+#entries .entry .body {
+  display: none;
+}
+#entries .entry .body.selected {
+  display: block;
+}
 
+/* Footer Styles */
 #footer {
   display: none;
 }

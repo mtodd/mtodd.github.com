@@ -6,12 +6,16 @@ var ReposToIgnore = [ 'mtodd.github.com',
                       'empty-merb-app-with-authentication',
                       'base-authenticated-merb-app' ];
 
+// Events
+
 $(function(){ // Application onLoad
   
   // load posts
   loadSection("#entries", "api/posts.json", function(id, post) {
     return applyTemplate('#entries .template', id, post);
   }, prepend = true);
+  // find a better way to attach events to these items before they get finished processing (wtf?)
+  setTimeout(function(){ $('#entries .content .entry').bind("click", selectEntryBody); }, 1000);
   
   // load links
   loadSection("#links", "api/links.json", function(id, link) {
@@ -33,6 +37,19 @@ $(function(){ // Application onLoad
   });
   
 });
+
+// Actions
+
+var selectEntryBody = function(event) {
+  $('#entries .entry:not(#'+this.id+') .body').hide('fast').queue(function() {
+    $(this).removeClass('selected');
+    $(this).dequeue();
+  });
+  $('#entries #'+this.id+'.entry .body').toggle('fast').queue(function() {
+    $(this).toggleClass('selected');
+    $(this).dequeue();
+  });
+}
 
 // Utility Functions
 

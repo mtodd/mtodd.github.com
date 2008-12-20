@@ -18,9 +18,9 @@
       <div id="entries">
         <h2>Entries</h2>
         <div class="template">
-          <li class="entry">
-            <span class="id">#{id}</span>
-            <a href="#posts/#{id}">#{title}</a>
+          <li id="#{id}" class="entry">
+            <span class="created_at">#{created_at}</span>
+            <a href="#posts/#{id}" class="title">#{title}</a>
             <span class="intro">#{intro}</span>
             <div class="body">#{body}</div>
           </li>

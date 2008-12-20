@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>mtodd.github.com</title>
+    <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen, projection" />
+    <script type="text/javascript" src="javascripts/jquery-1.2.6.min.js"></script>
+    <script type="text/javascript" src="javascripts/application.js"></script>
+  </head>
+  <body>
+    
+    <div id="header">
+      <h1>mtodd.github.com</h1>
+    </div>
+    
+    <div id="body">
+      
+      <div id="entries">
+        <h2>Entries</h2>
+        <div class="template">
+          <li class="entry">
+            <span class="id">#{id}</span>
+            <a href="#posts/#{id}">#{title}</a>
+            <span class="intro">#{intro}</span>
+            <div class="body">#{body}</div>
+          </li>
+        </div>
+        <ul class="content">Loading...</ul>
+      </div>
+      
+      <div id="links">
+        <h2>Links</h2>
+        <div class="template">
+          <li class="link"><a href="#{url}">#{title}</a></li>
+        </div>
+        <ul class="content">Loading...</ul>
+      </div>
+      
+      <div id="repos">
+        <h2>Projects</h2>
+        <div class="template">
+          <li class="repo"><a href="#{url}">#{repo}</a></li>
+        </div>
+        <ul class="content">Loading...</ul>
+      </div>
+      
+    </div>
+    
+    <div id="footer">
+      &copy; 2008 <a href="http://maraby.org/">Matt Todd</a>.
+    </div>
+    
+  </body>
+</html>

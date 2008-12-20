@@ -1,0 +1,10 @@
+{
+  "http://maraby.org/": {
+    "title": "Blog",
+    "description": "My personal tumblog with random shit from all around the web"
+  },
+  "http://highgroove.com/": {
+    "title": "Highgroove Studios",
+    "description": "My place of work"
+  }
+}

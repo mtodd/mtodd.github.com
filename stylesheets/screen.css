@@ -1,0 +1,10 @@
+/* Application-wide Styles */
+.template {
+  display: none;
+}
+
+/* Sectional Styles */
+
+#footer {
+  display: none;
+}

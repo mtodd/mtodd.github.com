@@ -1,4 +1,7 @@
 /* Application-wide Styles */
+html {
+  font-family: Helvetica, serif;
+}
 .template {
   display: none;
 }

@@ -1,5 +1,11 @@
 // jQuery 1.2.6 available
 
+// Constants
+
+var ReposToIgnore = [ 'mtodd.github.com',
+                      'empty-merb-app-with-authentication',
+                      'base-authenticated-merb-app' ];
+
 $(function(){ // Application onLoad
   
   // load posts
@@ -11,6 +17,19 @@ $(function(){ // Application onLoad
   loadSection("#links", "api/links.json", function(id, link) {
     link['url'] = id;
     return applyTemplate('#links .template', id, link);
+  });
+  
+  // load repos
+  $.getJSON('http://github.com/api/v1/json/mtodd?callback=?', function(data) {
+    $('#repos .content').html(''); // clear out "loading"
+    
+    // get repos (non-forks and sorted by popularity)
+    var repos = $.grep(data.user.repositories, function(repo) { return !repo.fork && !ReposToIgnore.include(repo.name); });
+    repos.sort(function(a, b) { return b.watchers - a.watchers; });
+    
+    $.each(repos, function(id, repo) {
+      $('#repos .content').append(applyTemplate('#repos .template', id, repo));
+    });
   });
   
 });
@@ -41,4 +60,17 @@ var applyTemplate = function(element_or_id, id, attributes) {
     content = content.replace("#{"+key+"}", value, "g");
   });
   return content;
+}
+
+// Extensions
+
+Array.prototype.index = function(val) {
+  for(var i = 0, l = this.length; i < l; i++) {
+    if(this[i] == val) return i;
+  }
+  return null;
+}
+
+Array.prototype.include = function(val) {
+  return this.index(val) !== null;
 }

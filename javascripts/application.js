@@ -73,8 +73,8 @@ var applyTemplate = function(element_or_id, id, attributes) {
   content = template.html();
   attributes['id'] = id;
   $.each(attributes, function(key, value) {
-    content = content.replace("#"+escape("{"+key+"}"), value, "g"); // escaped version ("#%26id%27" for example)
-    content = content.replace("#{"+key+"}", value, "g");
+    content = content.replace(new RegExp("#"+escape("{"+key+"}"), "g"), value); // escaped version ("#%26id%27" for example)
+    content = content.replace(new RegExp("#{"+key+"}", "g"), value);
   });
   return content;
 }

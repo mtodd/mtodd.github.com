@@ -24,17 +24,21 @@ $(function(){ // Application onLoad
   });
   
   // load repos
-  $.getJSON('http://github.com/api/v1/json/mtodd?callback=?', function(data) {
-    $('#repos .content').html(''); // clear out "loading"
-    
-    // get repos (non-forks and sorted by popularity)
-    var repos = $.grep(data.user.repositories, function(repo) { return !repo.fork && !ReposToIgnore.include(repo.name); });
-    repos.sort(function(a, b) { return b.watchers - a.watchers; });
-    
-    $.each(repos, function(id, repo) {
-      $('#repos .content').append(applyTemplate('#repos .template', id, repo));
+  try {
+    $.getJSON('http://github.com/api/v1/json/mtodd?callback=?', function(data) {
+      $('#repos .content').html(''); // clear out "loading"
+
+      // get repos (non-forks and sorted by popularity)
+      var repos = $.grep(data.user.repositories, function(repo) { return !repo.fork && !ReposToIgnore.include(repo.name); });
+      repos.sort(function(a, b) { return b.watchers - a.watchers; });
+
+      $.each(repos, function(id, repo) {
+        $('#repos .content').append(applyTemplate('#repos .template', id, repo));
+      });
     });
-  });
+  } catch(err) {
+    $('#repors .content').html('');
+  }
   
 });
 

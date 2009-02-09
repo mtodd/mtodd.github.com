@@ -1,0 +1,11 @@
+---
+layout: post
+title: <%= @title %>
+excerpt: <%= @excerpt %>
+---
+
+h1. {{page.title}}
+
+p(meta). <%= Time.now.strftime("%d %b %Y") %> - Atlanta, GA
+
+<%= @body %>

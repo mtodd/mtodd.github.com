@@ -2,48 +2,46 @@
 layout: default
 title: mtodd.github.com
 ---
-<div id="posts">
-  <h2>Posts</h2>
-  <div class="content">
-    {% for post in site.posts %}
-      <div class="post">
-        <span>{{ post.date | date_to_string }}</span> &middot;
-        <a href="{{ post.url }}">{{ post.title }}</a> &middot;
-        {{ post.excerpt }}
-      </div>
-    {% endfor %}
+<div id="left"><div class="padding">
+  
+  {% include header/left.html %}
+  
+  <div id="image">
+    <div id="leading_image">
+      <img id="the_leading_image" src="/images/me.jpg" border="0" />
+    </div>
+    <div id="leading_image_caption">
+      Matt Todd, a 23-year-old fuck-up postmodernist programmer artist whateverthehelliam
+    </div>
   </div>
-</div>
+  
+  {% include index/links.html %}
+  
+  {% include index/repos.html %}
+  
+  {% include index/followers.html %}
+  
+</div></div><!-- /left -->
 
-<div id="entries" style="display: none;">
-  <h2>Entries</h2>
-  <div class="template">
-    <li id="#{id}" class="entry">
-      <span class="created_at">#{created_at}</span>
-      <a href="#posts/#{id}" class="title">#{title}</a>
-      <span class="intro">#{intro}</span>
-      <div class="body">#{body}</div>
-    </li>
-  </div>
-  <ul class="content">Loading...</ul>
-</div>
 
-<div id="links">
-  <h2>Links</h2>
-  <div class="template">
-    <li class="link"><a href="#{url}">#{title}</a></li>
-  </div>
-  <ul class="content">Loading...</ul>
-</div>
 
-<div id="repos">
-  <h2>Projects</h2>
-  <div class="template">
-    <li class="repo">
-      <a href="http://github.com/#{owner}" class="owner">#{owner}</a> / <a href="#{url}" class="repo">#{name}</a>
-      (#{watchers})
-      #{description}
-    </li>
+<div id="right"><div class="padding">
+  
+  {% include header/right.html %}
+  
+  <div id="posts">
+    <h2>Posts</h2>
+    <div class="content">
+      {% for post in site.posts %}
+        <div class="post">
+          <span>{{ post.date | date_to_string }}</span> &middot;
+          <a href="{{ post.url }}">{{ post.title }}</a> &middot;
+          {{ post.excerpt }}
+        </div>
+      {% endfor %}
+    </div>
   </div>
-  <ul class="content">Loading...</ul>
-</div>
+  
+  {% include index/twitter.html %}
+  
+</div></div><!-- /right -->

@@ -10,13 +10,6 @@ var ReposToIgnore = [ 'mtodd.github.com',
 
 $(function(){ // Application onLoad
   
-  // load posts
-  loadSection("#entries", "api/posts.json", function(id, post) {
-    return applyTemplate('#entries .template', id, post);
-  }, prepend = true);
-  // find a better way to attach events to these items before they get finished processing (wtf?)
-  setTimeout(function(){ $('#entries .content .entry').bind("click", selectEntryBody); }, 1000);
-  
   // load links
   loadSection("#links", "api/links.json", function(id, link) {
     link['url'] = id;
@@ -27,33 +20,50 @@ $(function(){ // Application onLoad
   try {
     $.getJSON('http://github.com/api/v1/json/mtodd?callback=?', function(data) {
       $('#repos .content').html(''); // clear out "loading"
-
+      
       // get repos (non-forks and sorted by popularity)
       var repos = $.grep(data.user.repositories, function(repo) { return !repo.fork && !ReposToIgnore.include(repo.name); });
       repos.sort(function(a, b) { return b.watchers - a.watchers; });
-
+      repos = repos.slice(0,5);
+      
       $.each(repos, function(id, repo) {
         $('#repos .content').append(applyTemplate('#repos .template', id, repo));
       });
     });
   } catch(err) {
-    $('#repors .content').html('');
+    $('#repos .content').html('');
+  }
+  
+  // load followers
+  // http://github.com/api/v2/json/user/show/mtodd/followers
+  try {
+    $.getJSON('http://github.com/api/v2/json/user/show/mtodd/followers?callback=?', function(data) {
+      $('#followers .content').html(''); // clear out "loading"
+      var followers = data.users;
+      $.each(data.users, function(id, follower) {
+        $.getJSON('http://github.com/api/v2/json/user/show/'+follower+'?callback=?', function(data) {
+          var follower = data.user;
+          $('#followers .content').append(applyTemplate('#followers .template', id, {login: follower.login, md5: hex_md5(follower.email)}));
+        });
+      });
+    });
+  } catch(err) {
+    $('#followers .content').html('');
+  }
+  
+  try {
+    $('#updates .content').html('');
+    $.getJSON('http://twitter.com/statuses/user_timeline.json?screen_name=maraby&count=5&callback=?', function(data) {
+      $.each(data, function(id, update) {
+        update.profile_image_url = update.user.profile_image_url;
+        $('#updates .content').append(applyTemplate('#updates .template', id, update));
+      });
+    });
+  } catch(err) {
+    $('#updates .content').html('');
   }
   
 });
-
-// Actions
-
-var selectEntryBody = function(event) {
-  $('#entries .entry:not(#'+this.id+') .body').hide('fast').queue(function() {
-    $(this).removeClass('selected');
-    $(this).dequeue();
-  });
-  $('#entries #'+this.id+'.entry .body').toggle('fast').queue(function() {
-    $(this).toggleClass('selected');
-    $(this).dequeue();
-  });
-}
 
 // Utility Functions
 

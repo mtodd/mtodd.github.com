@@ -1,9 +1,22 @@
-/* Application-wide Styles */
-html {
-  font-family: Helvetica, serif;
+/* Page Styles */
+body {
+  background: #000 url(/images/background.png) repeat-y fixed top center;
+  margin: 0;
+  padding: 0;
+  font: 10pt "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+div.padding {
+  padding: 20px;
+}
+
+/* Application-wide Styles */
 .template {
   display: none;
+}
+
+.subheading {
+  font-size: 0.5em;
 }
 
 /* Footer Styles */
@@ -14,7 +27,97 @@ html {
   display: block;
 }
 
-/* Footer Styles */
 #footer {
   display: none;
+}
+
+/* Menu Styles */
+ul#menu {
+  padding-left: 0;
+}
+
+/* Generic Element Styles */
+
+ul {
+  list-style: none;
+}
+ul li {
+/*  display: inline;*/
+}
+
+/* Commentary Styles */
+div.comment {
+  display: none;
+}
+
+/* Twitter Updates Styles */
+#updates li.update {
+  padding: 0.5em;
+  clear: both;
+  vertical-align: middle;
+}
+#updates li.update .meta {
+  color: #AAA;
+}
+#updates li.update img.profile-image {
+  padding: 5px;
+}
+
+/*** Left Side Styles ********************************************************/
+div#left {
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  float: left;
+  background: #000;
+  color: #DDD;
+  text-align: right;
+}
+
+div#left a, div#left a:hover, div#left a:visited {
+  color: #7A964E;
+}
+
+div#leading_image img {
+  width: 432px;
+}
+div#leading_image_caption {
+  color: #555;
+  font-style: italic;
+  font-size: 80%;
+}
+
+div#bio p {
+  text-align: justify;
+}
+
+/*** Right Side Styles *******************************************************/
+div#right {
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  float: right;
+  background: #DDD;
+  color: #000;
+}
+
+div#right a, div#right a:hover, div#right a:visited {
+  color: #7A964E;
+}
+
+table#image-grid {
+  background: #BBB;
+}
+table#image-grid img.thumb {
+  width: 150px;
+}
+
+table.column-listing {
+  width: 100%;
+}
+table.column-listing td {
+  width: 50%;
+}
+table.column-listing td span.shrink {
+  font-size: 80%;
 }

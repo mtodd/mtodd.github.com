@@ -91,6 +91,13 @@ div#bio p {
   text-align: justify;
 }
 
+div#left div.justify {
+  text-align: justify;
+}
+div#left div.left {
+  text-align: left;
+}
+
 /*** Right Side Styles *******************************************************/
 div#right {
   margin: 0;

@@ -1,0 +1,162 @@
+---
+layout: post
+title: Queueing
+excerpt: RabbitMQ, AMQP, and some simple queueing snippets
+---
+
+h1. {{page.title}}
+
+p(meta). 8 Feb 2009 - Atlanta, GA
+
+*Note*: This is my first post here on my GitHub page; I've not been regularly
+blogging, so I'm a bit rusty. Here's an easy post to share something useful and
+still interesting. I hope to have several more articles about queueing in the
+future.
+
+I've been working with queues at "Highgroove Studios":http://highgroove.com/
+recently and I wanted to document what I did to get a working installation
+of "RabbitMQ":http://rabbitmq.com/ and "AMQP":http://github.com/tmm1/amqp/.
+
+The overall goal is to be able to use a powerful solution for message queues
+using RabbitMQ in your Ruby environment.
+
+h2. Install Erlang and RabbitMQ
+
+The first dependency for all of this is Erlang. Here are step-by-step
+instructions we've used in the past to install Erlang on our production
+systems.
+
+"http://gist.github.com/92290":http://gist.github.com/92290
+
+I've chosen RabbitMQ because of the availability of Erlang on one of our
+production environments (an ejabberd-based system) along with hearing great
+things about its stability and its ability to scale. Other options are
+certainly viable, but this was a good fit for us.
+
+Now install RabbitMQ. This is a very simple step, simply requring to dump the
+folder inside of the Erlang install's @lib@ directory, usually found in
+@/usr/local/lib/erlang/lib/@. Here are some step-by-step instructions,
+including steps and the necessary script to get it set up to start on boot.
+
+"http://gist.github.com/92296":http://gist.github.com/92296
+
+h2. AMQP
+
+I've been using the "AMQP library developed by Aman Gupta":http://github.com/tmm1
+in order to communicate to our RabbitMQ service in our systems. This library
+implements AMQP (Advanced Message Queueing Protocol) to communicate to
+ApacheMQ-compatible queues, including RabbitMQ among many others.
+
+Install the tmm1-amqp Gem like so:
+
+<script src="http://gist.github.com/110901.js"></script>
+
+This library also requires EventMachine (version 0.12.6 is the latest I've used
+with AMQP version 0.6.0). You may need to install that from RubyForge.
+
+Before we can start queueing, make sure that RabbitMQ is running correctly and
+in our Ruby library, make sure we can access the AMQP and EventMachine
+libraries, commonly done like this:
+
+<script src="http://gist.github.com/110899.js"></script>
+
+AMQP consists of two parts, the AMQP generic protocol implementation, and MQ
+which implements the behaviors that we expect of a Message Queue. MQ uses AMQP
+to implement many of its features.
+
+h2. Queueing in Ruby
+
+h3. Getting Our Feet Wet
+
+If you try to connect to a new queue right away (IRB is a good place to start),
+you'll be told bluntly that @MQ.new@ must be run inside of an EventMachine
+@run@ block. While in our normal coding this shouldn't be a big problem; we'll
+usually want to make queue-based interactions occur in the background in an
+evented loop, dicking around in IRB requires a different approach.
+
+Luckily for us, we simply require that the EventMachine reactor be running;
+we're not necessarily restricted to operating inside of the @EM.run@ loop.
+
+Try this:
+
+<script src="http://gist.github.com/110896.js"></script>
+
+We now have a tangible message queue that we can begin to work with along with
+the EM reactor running in the background, not blocking the rest of our app.
+
+*Note*: We'll usually want to also make sure that @EM.stop@ is called at
+termination, so be sure to setup a @trap@ call.
+
+h3. Queueing
+
+The next step is to put stuff into the queue. We'll start by just pushing a
+simple message onto the queue:
+
+<script src="http://gist.github.com/110900.js"></script>
+
+h3. Dequeueing
+
+Now we can pull that message back off. There are two methods, the first being a
+rather simplistic and slightly problematic approach similar to popping off the
+next element of an Array:
+
+<script src="http://gist.github.com/110924.js"></script>
+
+The first step requires setting a permanent callback for handling new messages
+and then we can call pop to have that callback be called for the next available
+message.
+
+h3. Dequeueing Revisited
+
+Unfortunately, this method doesn't behave as most would expect due to the
+asynchronous and event-driven nature of EventMachine and the AMQP library
+written on top of it.
+
+Most of the time, a simple subscription callback should be used for any new
+notifications so that you do not need to call the @pop@ method manually to begin
+the asynchronous process, a much more natural approach for this evented model.
+
+Observe:
+
+<script src="http://gist.github.com/110926.js"></script>
+
+Here we're installing a callback to handle all new messages. This callback is
+called whenever EventMachine sees that there are messages to handle.
+
+*NOTE*: Due to the asynchronous nature of EventMachine, the popping approach is
+handled with a much greater delay, having to wait for the next available tick of
+EventMachine's internal queue, instead of as soon as the message is received. In
+some cases this can make sense, but it's more often that someone wanting to use
+this method needs a synchronous library instead of asynchronous. For this, you
+can use
+"the Carrot AMQP library":http://github.com/famoseagle/carrot/tree/master.
+
+h3. Payload
+
+One minor trouble with these message queues is that they are limited in the type
+of data they can pass around to strings (technically bytes). In order to pass
+more useful data around, like hashes, I would recommend a simple JSON
+serialization process.
+
+<script src="http://gist.github.com/110929.js"></script>
+
+Alternatively, if you need to pass around marshalled objects (you really should
+reconsider what you're passing around; JSON is an ideal format), you an use the
+following:
+
+<script src="http://gist.github.com/110930.js"></script>
+
+This marshalls the data and then Base64 encodes it. Abstracting it away to
+method calls helps keep the actual behavior clean and can allow for simple
+refactoring to superior methods later.
+
+h2. Conclusion
+
+At this point, we're barely scratching the surface of RabbitMQ and AMQP, but we
+are at least able to pass messages around. This is a great start, but we can get
+much more interesting content by digging into more features of RabbitMQ, such as
+delivery acknowledgement (which can be used, for example, to ensure a message is
+sufficiently handled before it is put back in the queue to be handled
+elsewhere), but even beyond to the topic of Exchanges and Queues, Direct verses
+Topic verses Fanout queueing, etc, and I hope to touch more on them in the
+future.

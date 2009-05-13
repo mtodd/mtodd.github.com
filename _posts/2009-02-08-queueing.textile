@@ -8,7 +8,7 @@ h1. {{page.title}}
 
 p(meta). 8 Feb 2009 - Atlanta, GA
 
-p(summary). This post covers installing Erland, RabbitMQ, and the Ruby AMQP library as well as performing some very rudimentary queueing and dequeueing snippets.
+p(summary). This post covers installing Erlang, RabbitMQ, and the Ruby AMQP library as well as performing some very rudimentary queueing and dequeueing snippets.
 
 *Note*: This is my first post here on my GitHub page; I've not been regularly
 blogging, so I'm a bit rusty. Here's an easy post to share something useful and

@@ -98,6 +98,15 @@ div#left div.left {
   text-align: left;
 }
 
+p.meta {
+  color: #888;
+}
+
+p.summary {
+  font-size: 1.25em;
+  color: #7A964E;
+}
+
 /*** Right Side Styles *******************************************************/
 div#right {
   margin: 0;

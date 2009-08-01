@@ -1,0 +1,76 @@
+h1. Show Password
+
+A jQuery plugin to change a password field to a regular text input field and
+vice versa.
+
+h2. Motivation
+
+Jakob Nielsen's recent article
+"Stop Passowrd Masking":http://www.useit.com/alertbox/passwords.html raises
+concerns over the negative usability implications of masking password fields
+on the web. He summarizes:
+
+<blockquote>
+  Usability suffers when users type in passwords and the only feedback they get
+  is a row of bullets. Typically, masking passwords doesn't even increase
+  security, but it does cost you business due to login failures.
+</blockquote>
+
+I don't agree with every point, but I appreciate the value of enabling the user
+to make the decision instead of restricting them wholeheartedly.
+
+This is my attempt to provide a simple way for password to text input field
+toggling.
+
+h2. Usage
+
+<pre><code>
+  $("#show-password").showPasswordToggle(
+    ["password", "confirm-password"],
+    { reveal: "show-password-toggle" });
+</code></pre>
+
+* #show-password is the checkbox (or otherwise) that calls fires a change
+  event to toggle password fields from password to text type inputs.
+* an array of fields that are to be toggled from password to text types.
+* options hash including:
+** reveal: an element to reveal when the plugin loads (in order to not reveal
+    the toggle checkbox unless jQuery is supported, etc)
+
+h2. Demo
+
+http://mtodd.github.com/show-password/example.html
+
+h2. Requirements
+
+* jQuery 1.3+
+
+h2. License
+
+show-password is licensed under the MIT License:
+
+Copyright (c) 2009 Matt Todd (http://maraby.org/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+h2. Credit
+
+Inspired by the Chroma-Hash library by mattt:
+http://github.com/mattt/Chroma-Hash
+Demo design directly copied from Chroma-Hash.
